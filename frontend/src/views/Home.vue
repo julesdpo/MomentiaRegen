@@ -49,11 +49,11 @@ export default {
   methods: {
     async fetchPosts() {
       try {
-        const response = await axios.get("http://localhost:3000/api/posts"); // Updated to localhost
-        console.log(response.data); // Ajoutez ce log pour vérifier les données
+        const response = await axios.get("http://localhost:3000/api/posts"); // Appelle la route backend
+        console.log(response.data); // Vérifiez les données reçues
         this.posts = response.data.map(post => ({
           ...post,
-          image_url: post.image_url ? `/images/${post.image_url.split('/').pop()}` : null // Updated path
+          image_url: post.image_url ? `/images/${post.image_url.split('/').pop()}` : null // Ajuste le chemin de l'image
         }));
       } catch (error) {
         console.error("Erreur chargement posts :", error);
