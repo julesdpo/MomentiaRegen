@@ -7,16 +7,17 @@ const app = express();
 const PORT = 3000;
 app.use(cors());
 const postRoutes = require('./routes/post_routes');
-app.use('/api/posts', postRoutes);
 
 const path = require('path'); 
-app.use('/uploads', express.static(path.join(__dirname, '../images')));
 
-const imageUrl = `http://localhost:3000/uploads/${imageFile.filename}`;
+// Update static file serving path
+app.use('/uploads', express.static(path.join(__dirname, '../../frontend/public/images')));
+
+app.use('/api/posts', postRoutes); // Use post routes without multer
 
 // Route d'accueil
 app.get('/', (req, res) => {
-    res.send('Bienvenue sur l\'API Momentia 🚀');
+    res.send('Bienvenue sur lAPI Momentia 🚀');
 });
 
 // Route test de la base de données
@@ -28,17 +29,6 @@ app.get('/db-test', (req, res) => {
         res.json({ message: 'Connexion à la DB réussie', time: result[0] });
     });
 });
-
-// app.get('/api/posts', (req, res) => {
-//     db.query('SELECT * FROM posts', (err, result) => {
-//         if (err) {
-//             console.error("❌ Erreur SQL :", err); // ✅ Ajoute ce log
-//             return res.status(500).json({ error: err.message });
-//         }
-//         console.log("✅ Posts récupérés :", result); // ✅ Voir le contenu récupéré
-//         res.json(result);
-//     });
-// });
 
 app.get('/api/posts/:id', (req, res) => {
     const postId = req.params.id;
@@ -62,7 +52,6 @@ app.get('/api/users', (req, res) => {
         res.json(result);
     });
 });
-
 
 app.listen(PORT, () => {
     console.log(`🚀 Serveur lancé sur http://localhost:${PORT}`);

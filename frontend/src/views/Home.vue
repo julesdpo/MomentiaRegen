@@ -51,7 +51,10 @@ export default {
       try {
         const response = await axios.get("http://localhost:3000/api/posts"); // Updated to localhost
         console.log(response.data); // Ajoutez ce log pour vérifier les données
-        this.posts = response.data;
+        this.posts = response.data.map(post => ({
+          ...post,
+          image_url: post.image_url ? `/images/${post.image_url.split('/').pop()}` : null // Updated path
+        }));
       } catch (error) {
         console.error("Erreur chargement posts :", error);
       }

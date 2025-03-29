@@ -63,7 +63,7 @@
       },
       getImageUrl(imagePath) {
         if (!imagePath) return "/default-image.jpg"; // Image par défaut si vide
-        return `http://localhost:3000/uploads/${imagePath.split('/').pop()}`;
+        return `/images/${imagePath.split('/').pop()}`; // Updated path
       }
     }
   };

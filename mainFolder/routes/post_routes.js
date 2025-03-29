@@ -3,10 +3,9 @@ const router = express.Router();
 const postController = require('../controllers/post_controller');
 const path = require('path');
 
+// Supprimé : const uploadMiddleware = require('../middleware/multer-config');
 
-
-const uploadMiddleware = require('../middleware/multer-config');
-router.post('/', uploadMiddleware, (req, res) => {
+router.post('/', (req, res) => {
     try {
         postController.createPost(req, res);
     } catch (error) {
@@ -14,6 +13,5 @@ router.post('/', uploadMiddleware, (req, res) => {
         res.status(500).json({ error: 'Erreur serveur dans la route POST' });
     }
 });
-
 
 module.exports = router;
