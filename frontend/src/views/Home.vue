@@ -11,10 +11,7 @@
         <router-link :to="{ name: 'home', params: { id: post.id } }">
           <h3 class="text-xl font-semibold text-blue-500">{{ post.caption }}</h3>
         </router-link>
-        <img 
-          v-if="post.image_url"
-          :src="post.image_url" 
-          alt="Post Image"
+        <img v-if="post.image_url" :src="post.image_url" alt="Post Image"
           class="rounded-lg w-full my-4 object-cover max-h-[300px]"
         />
         <p><strong>📍 Localisation :</strong> {{ post.location || "Non précisée" }}</p>
@@ -51,10 +48,7 @@ export default {
       try {
         const response = await axios.get("http://localhost:3000/api/posts"); // Appelle la route backend
         console.log(response.data); // Vérifiez les données reçues
-        this.posts = response.data.map(post => ({
-          ...post,
-          image_url: post.image_url ? `/images/${post.image_url.split('/').pop()}` : null // Ajuste le chemin de l'image
-        }));
+        this.posts = response.data;
       } catch (error) {
         console.error("Erreur chargement posts :", error);
       }

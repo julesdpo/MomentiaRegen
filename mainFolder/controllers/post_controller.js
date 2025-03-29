@@ -16,7 +16,8 @@ exports.createPost = (req, res) => {
         return res.status(400).json({ error: 'Aucune image fournie.' });
     }
 
-    const imageUrl = `http://momentia.cloud/uploads/${imageFile.filename}`;
+    // Construct the image URL based on the public path
+    const imageUrl = `/images/${imageFile.filename}`;
     const sql = `INSERT INTO posts (user_id, caption, image_url, location, created_at) VALUES (?, ?, ?, ?, NOW())`;
     const values = [user_id, caption, imageUrl, location];
 
@@ -29,7 +30,7 @@ exports.createPost = (req, res) => {
             return res.status(500).json({ error: 'Erreur lors de la création du post.' });
         }
         console.log("✅ Post inséré !");
-        res.status(201).json({ message: 'Post créé avec succès !' });
+        res.status(201).json({ message: 'Post créé avec succès !', imageUrl });
     });
 };
 
