@@ -108,22 +108,6 @@ npm run dev
 
 ---
 
-## 🤝 Collaboration
-
-Cloner le repo :
-```bash
-git clone https://github.com/tonrepo/momentia.git
-cd momentia
-```
-
----
-
-## 📸 Aperçu
-
-Ajoute ici une capture d’écran ou une GIF du projet ✨
-
----
-
 ## 📄 Licence
 
 Projet personnel libre de droit pour apprendre, cloner, et modifier.
