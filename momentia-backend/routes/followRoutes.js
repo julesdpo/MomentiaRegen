@@ -58,4 +58,44 @@ router.get('/search', async (req, res) => {
   res.json(data);
 });
 
+router.get('/stats/:userId', async (req, res) => {
+  const { userId } = req.params;
+
+  const [followers, following] = await Promise.all([
+    supabase.from('follows').select('id', { count: 'exact' }).eq('following_id', userId),
+    supabase.from('follows').select('id', { count: 'exact' }).eq('follower_id', userId)
+  ]);
+
+  res.json({
+    followers: followers.count || 0,
+    following: following.count || 0
+  });
+});
+
+router.post('/follow', async (req, res) => {
+  const { follower_id, following_id } = req.body;
+
+  if (!follower_id || !following_id)
+    return res.status(400).json({ error: 'Champs manquants' });
+
+  const { error } = await supabase
+    .from('follows')
+    .insert([{ follower_id, following_id }]);
+
+  if (error) return res.status(500).json({ error: error.message });
+
+  res.json({ message: 'Follow success' });
+});
+
+router.post('/unfollow', async (req, res) => {
+  const { follower_id, following_id } = req.body;
+  const { error } = await supabase
+    .from('follows')
+    .delete()
+    .eq('follower_id', follower_id)
+    .eq('following_id', following_id);
+  if (error) return res.status(500).json({ error: error.message });
+  res.status(200).json({ message: 'Unfollowed' });
+});
+
 module.exports = router;
