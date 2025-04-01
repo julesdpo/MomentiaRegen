@@ -7,13 +7,24 @@
     >
       <!-- Auteur -->
       <div class="flex items-center p-4">
-        <img
-          :src="post.users?.avatar_url || 'https://i.pravatar.cc/80?u=placeholder'"
-          class="w-12 h-12 rounded-full mr-3"
-        />
-        <span class="font-semibold">
-          {{ post.users?.username || 'Utilisateur inconnu' }}
-        </span>
+        <router-link
+          v-if="post.users"
+          :to="`/user/${post.users.id}`"
+          class="flex items-center gap-3 hover:underline text-blue-600"
+        >
+          <img
+            :src="post.users.avatar_url || 'https://i.pravatar.cc/80?u=placeholder'"
+            class="w-12 h-12 rounded-full"
+          />
+          <span class="font-semibold">{{ post.users.username }}</span>
+        </router-link>
+        <div v-else class="flex items-center gap-3">
+          <img
+            src="https://i.pravatar.cc/80?u=placeholder"
+            class="w-12 h-12 rounded-full"
+          />
+          <span class="font-semibold text-gray-500">Utilisateur inconnu</span>
+        </div>
       </div>
 
       <!-- Image -->
@@ -104,7 +115,6 @@ export default {
         const data = await res.json();
         this.posts = data;
 
-        // Initialiser les commentaires, les likes, etc.
         data.forEach(post => {
           this.loadComments(post.id);
           this.loadLikeCount(post.id);
@@ -113,11 +123,6 @@ export default {
       } catch (err) {
         console.error('Erreur lors du fetch des posts :', err);
       }
-    },
-
-    formatDate(dateStr) {
-      const date = new Date(dateStr);
-      return date.toLocaleString();
     },
 
     toggleComments(postId) {
@@ -136,7 +141,7 @@ export default {
             post_id: postId,
           }),
         });
-        await this.loadLikeCount(postId); // on recharge uniquement les likes
+        await this.loadLikeCount(postId);
       } catch (err) {
         console.error('Erreur like :', err);
       }
