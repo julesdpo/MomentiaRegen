@@ -1,5 +1,5 @@
 const supabase = require('../services/supabaseClient');
-const bcryptjs = require('bcryptjs');
+const bcrypt = require('bcryptjs');
 const { v4: uuidv4 } = require('uuid');
 
 /**

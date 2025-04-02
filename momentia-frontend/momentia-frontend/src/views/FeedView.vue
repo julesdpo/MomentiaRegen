@@ -5,7 +5,6 @@
       :key="post.id"
       class="bg-white rounded-xl shadow overflow-hidden"
     >
-      <!-- Auteur -->
       <div class="flex items-center p-4">
         <router-link
           v-if="post.users"
@@ -16,7 +15,7 @@
             :src="post.users.avatar_url || 'https://i.pravatar.cc/80?u=placeholder'"
             class="w-12 h-12 rounded-full"
           />
-          <span class="font-semibold">{{ post.users.username }}</span>
+          <span class="font-semibold text-violet-700 hover:underline">{{ post.users.username }}</span>
         </router-link>
         <div v-else class="flex items-center gap-3">
           <img
@@ -51,7 +50,6 @@
           </span>
         </div>
 
-        <!-- Voir les commentaires -->
         <button
           class="text-blue-600 text-sm"
           @click="toggleComments(post.id)"
@@ -59,7 +57,6 @@
           {{ showComments[post.id] ? 'Masquer les commentaires' : 'Voir les commentaires' }}
         </button>
 
-        <!-- Commentaires -->
         <div v-if="showComments[post.id]">
           <h4 class="font-semibold mt-2">Commentaires :</h4>
           <div v-if="commentsByPost[post.id]?.length" class="space-y-1 text-sm mt-1">
@@ -70,7 +67,6 @@
           </div>
           <div v-else class="text-sm text-gray-400 mt-1">Aucun commentaire.</div>
 
-          <!-- Ajouter un commentaire -->
           <form
             @submit.prevent="addComment(post.id, newComment[post.id])"
             class="mt-2 flex gap-2"
