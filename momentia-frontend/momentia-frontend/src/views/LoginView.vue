@@ -6,7 +6,7 @@
         <input v-model="form.email" type="email" class="input" placeholder="Email" />
         <input v-model="form.password" type="password" class="input" placeholder="Mot de passe" />
   
-        <button type="submit" class="w-full bg-violet-500 hover:bg-violet-600 text-white py-2 mt-4 rounded">
+        <button type="submit" class="w-full bg-blue-500 hover:bg-blue-600 text-white py-2 mt-4 rounded">
           Se connecter
         </button>
       </form>
@@ -14,7 +14,6 @@
   </template>
   
   <script>
-  
   export default {
     data() {
       return {
@@ -25,7 +24,6 @@
       };
     },
     methods: {
-      
       async login() {
         try {
           const res = await fetch('http://localhost:3000/auth/login', {
@@ -39,8 +37,9 @@
   
           alert('Connexion réussie !');
           localStorage.setItem('user', JSON.stringify(data.user));
-          
-          this.$router.push('/'); 
+          // ici tu peux stocker le user dans localStorage ou Pinia + rediriger :
+          // localStorage.setItem('user', JSON.stringify(data.user));
+          this.$router.push('/'); // à remplacer par la page d'accueil plus tard
         } catch (err) {
           alert(err.message);
         }

@@ -5,25 +5,15 @@
       :key="post.id"
       class="bg-white rounded-xl shadow overflow-hidden"
     >
+      <!-- Auteur -->
       <div class="flex items-center p-4">
-        <router-link
-          v-if="post.users"
-          :to="`/user/${post.users.id}`"
-          class="flex items-center gap-3 hover:underline text-blue-600"
-        >
-          <img
-            :src="post.users.avatar_url || 'https://i.pravatar.cc/80?u=placeholder'"
-            class="w-12 h-12 rounded-full"
-          />
-          <span class="font-semibold text-violet-700 hover:underline">{{ post.users.username }}</span>
-        </router-link>
-        <div v-else class="flex items-center gap-3">
-          <img
-            src="https://i.pravatar.cc/80?u=placeholder"
-            class="w-12 h-12 rounded-full"
-          />
-          <span class="font-semibold text-gray-500">Utilisateur inconnu</span>
-        </div>
+        <img
+          :src="post.users?.avatar_url || 'https://i.pravatar.cc/80?u=placeholder'"
+          class="w-12 h-12 rounded-full mr-3"
+        />
+        <span class="font-semibold">
+          {{ post.users?.username || 'Utilisateur inconnu' }}
+        </span>
       </div>
 
       <!-- Image -->
@@ -50,6 +40,7 @@
           </span>
         </div>
 
+        <!-- Voir les commentaires -->
         <button
           class="text-blue-600 text-sm"
           @click="toggleComments(post.id)"
@@ -57,6 +48,7 @@
           {{ showComments[post.id] ? 'Masquer les commentaires' : 'Voir les commentaires' }}
         </button>
 
+        <!-- Commentaires -->
         <div v-if="showComments[post.id]">
           <h4 class="font-semibold mt-2">Commentaires :</h4>
           <div v-if="commentsByPost[post.id]?.length" class="space-y-1 text-sm mt-1">
@@ -67,6 +59,7 @@
           </div>
           <div v-else class="text-sm text-gray-400 mt-1">Aucun commentaire.</div>
 
+          <!-- Ajouter un commentaire -->
           <form
             @submit.prevent="addComment(post.id, newComment[post.id])"
             class="mt-2 flex gap-2"
@@ -111,6 +104,7 @@ export default {
         const data = await res.json();
         this.posts = data;
 
+        // Initialiser les commentaires, les likes, etc.
         data.forEach(post => {
           this.loadComments(post.id);
           this.loadLikeCount(post.id);
@@ -119,6 +113,11 @@ export default {
       } catch (err) {
         console.error('Erreur lors du fetch des posts :', err);
       }
+    },
+
+    formatDate(dateStr) {
+      const date = new Date(dateStr);
+      return date.toLocaleString();
     },
 
     toggleComments(postId) {
@@ -137,7 +136,7 @@ export default {
             post_id: postId,
           }),
         });
-        await this.loadLikeCount(postId);
+        await this.loadLikeCount(postId); // on recharge uniquement les likes
       } catch (err) {
         console.error('Erreur like :', err);
       }

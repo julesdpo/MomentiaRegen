@@ -8,7 +8,7 @@
         <input v-model="form.password" type="password" class="input" placeholder="Mot de passe" />
         <input v-model="form.avatar_url" class="input" placeholder="URL de l'avatar (optionnel)" />
   
-        <button type="submit" class="w-full bg-violet-500 hover:bg-violet-600 text-white py-2 mt-4 rounded">
+        <button type="submit" class="w-full bg-blue-500 hover:bg-blue-600 text-white py-2 mt-4 rounded">
           S'inscrire
         </button>
       </form>
